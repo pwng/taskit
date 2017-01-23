@@ -1,11 +1,14 @@
-node { // <1>
-    stage('Build') { // <2>
-        echo "Build"
+stage('Build') { // <2>
+    node('B1') {
+       echo "Build1"
     }
-    stage('Test') {
-        echo "Test"
+    node('B2') {
+       echo "Build2"
     }
-    stage('Deploy') {
-        echo "Deploy"
-    }
+}
+stage('Test') {
+    echo "Test"
+}
+stage('Deploy') {
+    echo "Deploy"
 }
