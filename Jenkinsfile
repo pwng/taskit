@@ -1,5 +1,9 @@
 node {
-    stage('Build') { // <2>
+    stage('Checkout') {
+       echo "Checking out"
+       git url: 'https://github.com/pwng/taskit.git'
+    }
+    stage('Build') { 
        echo "Build1"
     }
 	stage('Test') {
