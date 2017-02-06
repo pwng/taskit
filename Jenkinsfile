@@ -10,6 +10,7 @@ node {
     }
 	stage('Test') {
 	    echo "Test"
+	    step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*.xml'])
 	}
 	stage('Deploy') {
 	    echo "Deploy"
