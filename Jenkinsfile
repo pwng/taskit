@@ -10,7 +10,9 @@ node {
     }
 	stage('Test') {
 	    echo "Test"
-	    step([$class: 'JUnitResultArchiver', testResults: '**/target/TEST-*.xml'])
+	    def mvnHome = tool 'M3'
+        sh "${mvnHome}/bin/mvn test -B"
+	    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
 	}
 	stage('Deploy') {
 	    echo "Deploy"
