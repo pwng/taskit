@@ -6,7 +6,7 @@ node {
     stage('Build') { 
        echo "Build1"
        def mvnHome = tool 'M3'
-       sh "${mvnHome}/bin/mvn -B verify"
+       sh "${mvnHome}/bin/mvn -B verify -Dmaven.test.skip=true"
     }
 	stage('Test') {
 	    echo "Test"
