@@ -104,6 +104,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${surefire.reportplugin.version}</version>
+				<configuration>
+					<printSummary>true</printSummary>
+				</configuration>
 			</plugin>
 			<!--<plugin>-->
 				<!--<groupId>org.codehaus.mojo</groupId>-->

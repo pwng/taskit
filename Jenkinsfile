@@ -11,18 +11,12 @@ node {
 	stage('Test') {
 	    echo "Test"
 	    def mvnHome = tool 'M3'
-	    #!/bin/sh
-        sh "${mvnHome}/bin/mvn test"
+
+        sh "${mvnHome}/bin/mvn clean verify"
 
 	    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
 	}
 	stage('Deploy') {
 	    echo "Deploy"
 	}
-
-	post {
-            always {
-                junit '**/target/surefire-reports/TEST-*.xml'
-            }
-        }
 }

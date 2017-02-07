@@ -23,7 +23,7 @@ public class TaskitDAOTests {
         taskDAO.save(new Task("assignment2","write spring-boot","not started"));
         List<Task> taskList ;
         taskList = taskDAO.findByName("assignment1") ;
-        assert taskList.get(0) != null ;
+        assert taskList.get(0) == null ;
 	}
 	@Test
 	public void should_delete_task() {
