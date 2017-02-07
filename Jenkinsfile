@@ -15,6 +15,7 @@ node {
         sh "${mvnHome}/bin/mvn clean verify"
 
 	    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+	    junit '**/target/surefire-reports/TEST-*.xml'
 	}
 	stage('Deploy') {
 	    echo "Deploy"
