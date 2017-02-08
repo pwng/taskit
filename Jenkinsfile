@@ -8,7 +8,7 @@ node {
        def mvnHome = tool 'M3'
 
        try{
-            sh "${mvnHome}/bin/mvn -B verify"
+            sh "${mvnHome}/bin/mvn -B verify checkstyle:checkstyle"
        }catch(err){
             if (currentBuild.result == 'UNSTABLE')
                 currentBuild.result = 'FAILURE'
@@ -18,9 +18,9 @@ node {
             junit '**/target/surefire-reports/TEST-*.xml'
        }
     }
-	stage('Test') {
-	    echo "Test"
-
+	stage('Code Static Check') {
+	    echo "Code Static Check"
+        step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
 	}
 	stage('Deploy') {
 	    echo "Deploy"
