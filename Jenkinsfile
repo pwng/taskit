@@ -14,16 +14,9 @@ node {
                 currentBuild.result = 'FAILURE'
             throw err
        }finally {
-                    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml', healthScaleFactor: 1.0])
-                    publishHTML (target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: false,
-                            keepAll: true,
-                            reportDir: 'coverage',
-                            reportFiles: 'index.html',
-                            reportName: "Junit Report"
-                    ])
-                }
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml', healthScaleFactor: 1.0])
+            junit '**/target/surefire-reports/TEST-*.xml'
+       }
     }
 	stage('Test') {
 	    echo "Test"
