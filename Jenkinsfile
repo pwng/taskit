@@ -21,6 +21,7 @@ node {
 	stage('Code Static Check') {
 	    echo "Code Static Check"
         step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
+        step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml'])
 	}
 	stage('Deploy') {
 	    echo "Deploy"
