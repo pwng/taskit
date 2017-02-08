@@ -8,7 +8,7 @@ node {
        def mvnHome = tool 'M3'
 
        try{
-            sh "${mvnHome}/bin/mvn -B verify checkstyle:checkstyle"
+            sh "${mvnHome}/bin/mvn -B verify checkstyle:checkstyle findbugs:findbugs"
        }catch(err){
             if (currentBuild.result == 'UNSTABLE')
                 currentBuild.result = 'FAILURE'
