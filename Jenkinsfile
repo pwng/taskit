@@ -1,14 +1,15 @@
 node {
     def mvnHome = tool 'M3'
+    def workspace = pwd()
 
     stage('Checkout') {
        echo "Checking out"
        git 'https://github.com/pwng/taskit.git'
     }
-    stage('Build') { 
+    stage('Build') {
        echo "Build"
 
-       sh "${mvnHome}/bin/mvn clean install -DskipTests
+       sh "${mvnHome}/bin/mvn clean install -DskipTests"
     }
     stage('UnitTest'){
         echo "UnitTest"
@@ -34,9 +35,7 @@ node {
 	}
 	stage('Deploy') {
 	    echo "Deploy"
-	}
 
-	def deploy(war, id) {
-        sh "cp ${war} /tmp/webapps/${id}.war"
-    }
+	    sh "cp ${workspace}/target/taskit-0.0.1-SNAPSHOT.war /var/lib/tomcat/webapps/ -p"
+	}
 }
