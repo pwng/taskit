@@ -36,6 +36,11 @@ node {
 	stage('Deploy') {
 	    echo "Deploy"
 
-	    sh "cp ${workspace}/target/taskit-0.0.1-SNAPSHOT.war /var/lib/tomcat/webapps/ -p"
+        sh "${mvnHome}/bin/mvn package -DskipTests"
+	    deploy "${workspace}/target/taskit-0.0.1-SNAPSHOT.war", "taskit"
 	}
 }
+
+    def deploy(war, id) {
+        sh "cp ${war} /var/lib/tomcat/webapps/${id}.war"
+    }
