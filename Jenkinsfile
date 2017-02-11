@@ -11,6 +11,14 @@ node {
 
        sh "${mvnHome}/bin/mvn clean install -DskipTests"
     }
+    stage('Code Static Check') {
+    	    echo "Code Static Check"
+
+            sh "${mvnHome}/bin/mvn compile checkstyle:checkstyle findbugs:findbugs"
+
+            step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
+            step([$class: 'FindBugsPublisher', pattern: '**/target/findbugsXml.xml'])
+    	}
     stage('UnitTest'){
         echo "UnitTest"
 
@@ -25,14 +33,7 @@ node {
             junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
         }
     }
-	stage('Code Static Check') {
-	    echo "Code Static Check"
 
-        sh "${mvnHome}/bin/mvn compile checkstyle:checkstyle findbugs:findbugs"
-
-        step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
-        step([$class: 'FindBugsPublisher', pattern: '**/target/findbugsXml.xml'])
-	}
 	stage('Deploy') {
 	    echo "Deploy"
 
