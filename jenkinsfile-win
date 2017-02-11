@@ -1,0 +1,46 @@
+node {
+    def mvnHome = tool 'M3'
+    def workspace = pwd()
+
+    stage('Checkout') {
+       echo "Checking out"
+       git 'https://github.com/pwng/taskit.git'
+    }
+    stage('Build') {
+       echo "Build"
+
+       bat "${mvnHome}/bin/mvn clean install -DskipTests"
+    }
+    stage('UnitTest'){
+        echo "UnitTest"
+
+        try{
+            bat "${mvnHome}/bin/mvn test"
+        }catch(err){
+            if (currentBuild.result == 'UNSTABLE')
+                currentBuild.result = 'FAILURE'
+            throw err
+        }finally {
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml', healthScaleFactor: 1.0])
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
+        }
+    }
+	stage('Code Static Check') {
+	    echo "Code Static Check"
+
+        bat "${mvnHome}/bin/mvn compile checkstyle:checkstyle findbugs:findbugs"
+
+        step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
+        step([$class: 'FindBugsPublisher', pattern: '**/target/findbugsXml.xml'])
+	}
+	stage('Deploy') {
+	    echo "Deploy"
+
+        bat "${mvnHome}/bin/mvn package -DskipTests"
+        deploy "${workspace}\\target\\taskit-0.0.1-SNAPSHOT.war", "taskit"
+	}
+}
+
+def deploy(war, id) {
+        bat "copy ${war} D:\\apache-tomcat-8.5.11\\webapps\\${id}.war"
+}
