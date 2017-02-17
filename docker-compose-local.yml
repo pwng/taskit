@@ -1,0 +1,21 @@
+version: '2.0'
+services:
+  db:
+    build:
+       context:  env-build-scripts/db
+    image: taskit-db-local
+    ports:
+       - 3306:3306
+    environment:
+       - MYSQL_ROOT_PASSWORD=!@#QWEasd123
+    restart: always
+
+#  api:
+#      build:
+#             context:  .
+#      image: taskit-server-local
+#      container_name: taskit-server-local
+#      ports:
+#        - "8085:8080"
+#      depends_on:
+#        - db
