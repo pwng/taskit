@@ -2,12 +2,12 @@
  var webpack = require('webpack');
      
  module.exports = {
-     entry: './js/app.js',
+     entry: './app/app.js',
      resolve: {
          extensions: [ '.js', '.jsx'],
      },
      output: {
-         path: path.resolve(__dirname, 'build'),
+         path: path.resolve(__dirname, '../webapp'),
          filename: 'app.bundle.js'
      },
      module: {
