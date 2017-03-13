@@ -30,3 +30,19 @@ GRANT ALL PRIVILEGES ON * . * TO 'pwng'@'localhost';
 SELECT user,host from USER;
 CREATE database taskit;
 ```
+## Compiling the React front end
+
+Install the required npm modules
+```
+npm install babel-core
+npm i babel-loader babel-preset-es2015 babel-preset-react -S
+npm install react --save
+npm install react-dom --save
+npm install react-router --save
+npm install webpack
+```
+
+compile the js application
+```
+npm run webpack
+```
